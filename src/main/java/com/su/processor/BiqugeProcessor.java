@@ -50,9 +50,9 @@ public class BiqugeProcessor implements PageProcessor {
                 page.addTargetRequests(linksAll);
             }
         }else if (judge.contains(LIST)) {
-            String linksList = getLinksList(page);
-            if (!StringUtils.isEmpty(linksList)) {
-                page.addTargetRequest(linksList);
+            List<String> linksList = getLinksList(page);
+            if (linksList!=null && linksList.size() > 0) {
+                page.addTargetRequests(linksList);
             }
             String categoryName = html.xpath("//div[@class='con_top']/a[2]/text()").toString();
             String website = html.xpath("//div[@class='con_top']/a[1]/text()").toString();
@@ -95,11 +95,11 @@ public class BiqugeProcessor implements PageProcessor {
     /**
      * 在小说的章节列表中获取所有的 章节url
      */
-    private String getLinksList(Page page) {
+    private List<String> getLinksList(Page page) {
         Html html = page.getHtml();
         Selectable xpath = html.xpath("//div[@id='list']");
         log.info("list-size:" + xpath.links().all().size());
-        return xpath.links().all().get(xpath.links().all().size() - 1);
+        return xpath.links().all();
     }
 
     /**
